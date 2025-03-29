@@ -27,7 +27,7 @@ final class AudioManager: ObservableObject {
     // MARK: - Audio Setup
 
     private func setupAudioSession() {
-        try? session.setCategory(.playAndRecord, mode: .videoRecording, options: [.defaultToSpeaker, .mixWithOthers])
+        try? session.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker, .mixWithOthers])
         try? session.setActive(true)
         try? session.setInputGain(0.5)
     }
