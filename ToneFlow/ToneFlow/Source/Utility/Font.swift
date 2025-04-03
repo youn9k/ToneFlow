@@ -19,17 +19,17 @@ public extension View {
 public extension Font {
     enum FontSystem: Fontable {
         /// size: 24
-        case t1(weight: FontWeight = .medium)
+        case t1(_ weight: FontWeight = .medium)
         /// size: 22
-        case t2(weight: FontWeight = .medium)
+        case t2(_ weight: FontWeight = .medium)
         /// size: 20
-        case t3(weight: FontWeight = .medium)
+        case t3(_ weight: FontWeight = .medium)
         /// size: 16
-        case t4(weight: FontWeight = .medium)
+        case t4(_ weight: FontWeight = .medium)
         /// size: 14
-        case t5(weight: FontWeight = .medium)
+        case t5(_ weight: FontWeight = .medium)
         /// size: 12
-        case t6(weight: FontWeight = .medium)
+        case t6(_ weight: FontWeight = .medium)
     }
 
     static func setFont(_ style: FontSystem) -> Font {
