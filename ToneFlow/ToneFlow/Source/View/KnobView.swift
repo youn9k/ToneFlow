@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct KnobView: View {
+    @Environment(\.knobFillColor) private var knobFillColor
+    var knobColor: Color { knobFillColor ?? .gray700 }
+    
     /// 회전 각도: 중앙은 0, 위로 드래그(오른쪽 회전)는 양수, 아래로 드래그(왼쪽 회전)는 음수
     @State private(set) var angle: Double = 0.0
     /// 노브의 값: 중앙 0.5, 오른쪽(90°) 1.0, 왼쪽(-90°) 0.0
@@ -16,6 +19,7 @@ struct KnobView: View {
     @State private(set) var initialAngle: Double = 0.0
     /// 노브 회전 민감도
     private(set) var sensitive: Double = 0.5
+    
     
     var body: some View {
         GeometryReader { geometry in
@@ -27,7 +31,7 @@ struct KnobView: View {
             
             Circle()
                 .stroke(Color.white, lineWidth: 1)
-                .fill(.gray700)
+                .fill(knobColor)
                 .frame(width: size, height: size)
                 .overlay(alignment: .top) {
                     Circle()
@@ -61,6 +65,7 @@ struct KnobView_Previews: PreviewProvider {
         ZStack {
             Color.background.ignoresSafeArea()
             KnobView()
+                .knobFill(.POINT)
                 .frame(width:  80, height: 80)
                 .tfShadow(alpha: 0.25, blur: 10)
         }
