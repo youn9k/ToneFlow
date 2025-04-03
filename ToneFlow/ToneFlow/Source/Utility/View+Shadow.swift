@@ -8,11 +8,7 @@
 import SwiftUI
 
 public extension View {
-    func shadow(alpha: Double, blur: CGFloat, x: CGFloat, y: CGFloat) -> some View {
+    func tfShadow(alpha: Double, blur: CGFloat, x: CGFloat = 4, y: CGFloat = 4) -> some View {
         self.shadow(color: Color.black.opacity(alpha), radius: blur, x: x, y: y)
-    }
-    
-    func tfShadow(alpha: Double, blur: CGFloat) -> some View {
-        self.shadow(alpha: alpha, blur: blur, x: 4, y: 4)
     }
 }
