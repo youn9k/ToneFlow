@@ -14,7 +14,7 @@ struct KnobView: View {
     /// 회전 각도: 중앙은 0, 위로 드래그(오른쪽 회전)는 양수, 아래로 드래그(왼쪽 회전)는 음수
     @State private(set) var angle: Double = 0.0
     /// 노브의 값: 중앙 0.5, 오른쪽(90°) 1.0, 왼쪽(-90°) 0.0
-    @State private(set) var knobValue: Double = 0.5
+    @Binding var knobValue: Double
     /// 드래그 시작 시의 회전각
     @State private(set) var initialAngle: Double = 0.0
     /// 노브 회전 민감도
@@ -30,8 +30,8 @@ struct KnobView: View {
             let pointerOffset = max(5.0, size / 16)
             
             Circle()
-                .stroke(Color.white, lineWidth: 1)
                 .fill(knobColor)
+                .strokeBorder(Color.white, lineWidth: 1)
                 .frame(width: size, height: size)
                 .overlay(alignment: .top) {
                     Circle()
@@ -64,7 +64,7 @@ struct KnobView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.background.ignoresSafeArea()
-            KnobView()
+            KnobView(knobValue: .constant(0.5))
                 .knobFill(.POINT)
                 .frame(width:  80, height: 80)
                 .tfShadow(alpha: 0.25, blur: 10)
