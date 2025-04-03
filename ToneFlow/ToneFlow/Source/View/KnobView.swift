@@ -21,31 +21,22 @@ struct KnobView: View {
         GeometryReader { geometry in
             /// 부모 뷰가 지정한 크기 중 작은 쪽을 기준으로 계산
             let size = min(geometry.size.width, geometry.size.height)
-            /// 원의 테두리 두께를 전체 크기의 4%로 설정
-            let circleLineWidth = size * 0.04
-            /// 포인터(노브 바늘)의 크기를 전체 크기에 비례하여 계산
-            let pointerWidth = size * 0.02
-            let pointerHeight = size * 0.4
-            /// 포인터가 원 상단에 위치하도록 오프셋 계산
-            let pointerOffset = -pointerHeight / 2
+            let pointerWidth = size / 8
+            let pointerHeight = size / 8
+            let pointerOffset = max(5.0, size / 16)
             
-            ZStack {
-                // 노브 배경: 원 형태의 테두리
-                Circle()
-                    .stroke(Color.gray, lineWidth: circleLineWidth)
-                    .fill(.white)
-                    .frame(width: size, height: size)
-                
-                // 노브 포인터(바늘)
-                Rectangle()
-                    .fill(Color.red)
-                    .frame(width: pointerWidth, height: pointerHeight)
-                    .offset(y: pointerOffset)
-                    .rotationEffect(.degrees(angle))
-            }
-            // ZStack 자체의 크기를 GeometryReader의 크기로 설정
-            .frame(width: geometry.size.width, height: geometry.size.height)
-            .gesture(verticalDragGesture)
+            Circle()
+                .stroke(Color.white, lineWidth: 1)
+                .fill(.gray700)
+                .frame(width: size, height: size)
+                .overlay(alignment: .top) {
+                    Circle()
+                        .foregroundStyle(.white)
+                        .frame(width: pointerWidth, height: pointerHeight)
+                        .offset(y: pointerOffset)
+                }
+                .rotationEffect(.degrees(angle))
+                .gesture(verticalDragGesture)
         }
     }
     private var verticalDragGesture: some Gesture {
@@ -53,10 +44,10 @@ struct KnobView: View {
             .onChanged { value in
                 // translation.height가 음수면 위로 드래그 → angle 증가 (오른쪽 회전)
                 var newAngle = initialAngle - value.translation.height * sensitive
-                // angle은 -90 ~ 90 범위로 제한
-                newAngle = min(max(newAngle, -90), 90)
+                // angle은 -120 ~ 120 범위로 제한
+                newAngle = min(max(newAngle, -120), 120)
                 angle = newAngle
-                knobValue = (newAngle + 90) / 180
+                knobValue = (newAngle + 120) / 180
             }
             .onEnded { _ in
                 initialAngle = angle
@@ -67,6 +58,11 @@ struct KnobView: View {
 
 struct KnobView_Previews: PreviewProvider {
     static var previews: some View {
-        KnobView()
+        ZStack {
+            Color.background.ignoresSafeArea()
+            KnobView()
+                .frame(width:  80, height: 80)
+                .tfShadow(alpha: 0.25, blur: 10)
+        }
     }
 }
