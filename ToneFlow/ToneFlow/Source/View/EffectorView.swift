@@ -21,7 +21,7 @@ struct EffectorView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            let knobRatio: CGFloat = 80 / 150
+            let knobRatio: CGFloat = 100 / 171 // 피그마 기준
             let knobSize: CGFloat = geometry.size.width * knobRatio
             let buttonSize: CGFloat = knobSize / 2
             
@@ -32,6 +32,7 @@ struct EffectorView: View {
                     KnobView(knobValue: $knobValue)
                         .knobFill(.POINT)
                         .frame(width: knobSize, height: knobSize)
+                        .tfShadow(alpha: 0.20, blur: 10)
                     
                     HStack {
                         Text("Min")
@@ -63,6 +64,7 @@ struct EffectorView: View {
                             .tfShadow(alpha: 0.25, blur: 20)
                     }
                 }
+                .padding(.vertical, 10)
                 
                 
             }
@@ -76,7 +78,24 @@ struct EffectorView: View {
 #Preview {
     ZStack {
         Color.background.ignoresSafeArea()
-        EffectorView(title: "Compressor", isOn: .constant(true), knobValue: .constant(0.5))
-            .frame(width: 150, height: 220)
+        ScrollView {
+            VStack {
+                EffectorView(title: "Compressor", isOn: .constant(true), knobValue: .constant(0.5))
+                    .frame(width: 100, height: 220)
+
+                EffectorView(title: "Compressor", isOn: .constant(true), knobValue: .constant(0.5))
+                    .frame(width: 150, height: 220)
+
+                EffectorView(title: "Compressor", isOn: .constant(true), knobValue: .constant(0.5))
+                    .frame(width: 171, height: 257)
+                    .padding(.bottom, 70)
+                
+                EffectorView(title: "Compressor", isOn: .constant(true), knobValue: .constant(0.5))
+                    .frame(width: 300, height: 220)
+                    .padding(.bottom, 70)
+            }
+        }
+        .scrollIndicators(.never)
+        .scrollClipDisabled()
     }
 }
