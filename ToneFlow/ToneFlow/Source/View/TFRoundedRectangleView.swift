@@ -10,7 +10,7 @@ import SwiftUI
 struct TFRoundedRectangleView: View {
     var body: some View {
         RoundedRectangle(cornerRadius: 20)
-            .fill(.sub4)
+            .fill(.ultraThinMaterial)
             .strokeBorder(Color.white, lineWidth: 1)
             .tfShadow(alpha: 0.25, blur: 20)
     }
@@ -22,4 +22,8 @@ struct TFRoundedRectangleView: View {
         TFRoundedRectangleView()
             .frame(width: 150, height: 200)
     }
+}
+
+#Preview {
+    ContentView()
 }
