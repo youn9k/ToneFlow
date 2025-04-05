@@ -50,5 +50,8 @@ struct OutputView: View {
 }
 
 #Preview {
-    OutputView(outputVolume: .constant(0.5), knobValue: .constant(0.5))
+    OutputView(
+        outputVolume: .constant(0.5),
+        knobValue: .constant(0.5)
+    )
 }

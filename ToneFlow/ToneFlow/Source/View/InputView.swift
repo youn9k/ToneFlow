@@ -50,5 +50,8 @@ struct InputView: View {
 }
 
 #Preview {
-    InputView(inputVolume: .constant(0.5), knobValue: .constant(0.5))
+    InputView(
+        inputVolume: .constant(0.5),
+        knobValue: .constant(0.5)
+    )
 }

@@ -80,6 +80,11 @@ struct AmpView: View {
 }
 
 #Preview {
-    AmpView(isOn: .constant(true), bassKnobValue: .constant(0.5), midKnobValue: .constant(0.5), trebleKnobValue: .constant(0.5))
-        .frame(height: 230)
+    AmpView(
+        isOn: .constant(true),
+        bassKnobValue: .constant(0.5),
+        midKnobValue: .constant(0.5),
+        trebleKnobValue: .constant(0.5)
+    )
+    .frame(height: 230)
 }
