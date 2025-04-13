@@ -3,15 +3,12 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var audioManager = AudioManager.shared
     
-    @State var inputVolume: Double = 0.5
-    @State var outputVolume: Double = 0.5
+    @State var inputChannelValue: Double = 0.5
+    @State var outputChannelValue: Double = 0.5
     
-    @State var inputKnobValue: Double = 0.5
-    @State var outputKnobValue: Double = 0.5
     @State var compressorKnobValue: Double = 0.5
     @State var overdriveKnobValue: Double = 0.5
-    @State var delayKnobValue: Double = 0.5
-    @State var reverbKnobValue: Double = 0.5
+    
     @State var ampBassKnobValue: Double = 0.5
     @State var ampMidKnobValue: Double = 0.5
     @State var ampTrebleKnobValue: Double = 0.5
@@ -25,20 +22,31 @@ struct ContentView: View {
     @State var khz8Value: Double = 0
     @State var khz16Value: Double = 0
     
+    @State var delayKnobValue: Double = 0.5
+    @State var reverbKnobValue: Double = 0.5
+    
     @State var compressorIsOn: Bool = true
     @State var overdriveIsOn: Bool = true
-    @State var delayIsOn: Bool = true
-    @State var reverbIsOn: Bool = true
     @State var ampIsOn: Bool = true
     @State var eqIsOn: Bool = true
+    @State var delayIsOn: Bool = true
+    @State var reverbIsOn: Bool = true
     
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
                 HStack {
-                    InputView(inputVolume: $inputVolume, knobValue: $inputKnobValue)
+                    AudioChannelView(
+                        type: .input,
+                        audioChannelValue: $inputChannelValue,
+                        deviceName: "US 1x2 HR"
+                    )
                     Spacer()
-                    OutputView(outputVolume: $outputVolume, knobValue: $outputKnobValue)
+                    AudioChannelView(
+                        type: .output,
+                        audioChannelValue: $outputChannelValue,
+                        deviceName: "~~`s AirPod Pro2"
+                    )
                 }
                 .padding(.horizontal, 40)
                 .padding(.top, 15)
