@@ -2,7 +2,7 @@ name: Build ⚒️
 
 on:
   push:
-    branches: [ "develop", "main", "ci_build"]
+    branches: [ "develop", "main" ]
   pull_request:
     branches: [ "develop" ]
   schedule:
