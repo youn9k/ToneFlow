@@ -72,7 +72,7 @@ struct EQView: View {
             Text(String(format: "%.1f", value.wrappedValue))
                 .tfFont(.t7(.medium))
                 .foregroundStyle(.gray800)
-            TFSliderView(value: value, trackColor: .gray300, handleColor: .POINT_2)
+            SliderView(value: value, trackColor: .gray300, handleColor: .POINT_2)
                 .frame(width: 10)
             Text(label)
                 .tfFont(.t7(.medium))

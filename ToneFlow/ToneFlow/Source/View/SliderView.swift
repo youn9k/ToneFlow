@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TFSliderView: View {
+struct SliderView: View {
     @Binding var value: Double {
         didSet {
             #if DEBUG
@@ -77,7 +77,7 @@ struct TFSliderView: View {
 }
 
 #Preview {
-    TFSliderView(
+    SliderView(
         value: .constant(0.5),
         trackColor: Color.gray300,
         handleColor: Color.POINT_2
