@@ -30,6 +30,8 @@ public extension Font {
         case t5(_ weight: FontWeight = .medium)
         /// size: 12
         case t6(_ weight: FontWeight = .medium)
+        /// size: 10
+        case t7(_ weight: FontWeight = .medium)
     }
 
     static func setFont(_ style: FontSystem) -> Font {
@@ -57,11 +59,12 @@ private extension Font.FontSystem {
     var weight: FontWeight {
         switch self {
         case let .t1(weight),
-             let .t2(weight),
-             let .t3(weight),
-             let .t4(weight),
-             let .t5(weight),
-             let .t6(weight):
+            let .t2(weight),
+            let .t3(weight),
+            let .t4(weight),
+            let .t5(weight),
+            let .t6(weight),
+            let .t7(weight):
             return weight
         }
     }
@@ -74,6 +77,7 @@ private extension Font.FontSystem {
         case .t4: return 16
         case .t5: return 14
         case .t6: return 12
+        case .t7: return 10
         }
     }
 
@@ -85,6 +89,7 @@ private extension Font.FontSystem {
         case .t4: return 28
         case .t5: return 24
         case .t6: return 22
+        case .t7: return 20
         }
     }
 }
