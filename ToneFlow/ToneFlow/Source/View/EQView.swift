@@ -21,7 +21,7 @@ struct EQView: View {
     var body: some View {
         GeometryReader { geometry in
             // 피그마 기준 비율로 크기 계산
-            let sliderGroupRatio: CGFloat = 185 / 362
+            let sliderGroupRatio: CGFloat = 185 / 310
             let sliderGroupHeight: CGFloat = geometry.size.height * sliderGroupRatio
             let buttonRatio: CGFloat = 50 / 362
             let buttonSize: CGFloat = geometry.size.width * buttonRatio
@@ -78,6 +78,7 @@ struct EQView: View {
                 .tfFont(.t7(.medium))
                 .foregroundStyle(.gray800)
         }
+        .frame(maxWidth: .infinity)
     }
 }
 
