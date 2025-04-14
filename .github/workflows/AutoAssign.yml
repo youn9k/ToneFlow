@@ -21,7 +21,7 @@ jobs:
       - name: Assign PR author
         run: gh pr edit ${{ github.event.number }} --add-assignee ${{ steps.get-pr-author.outputs.author }}
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       - name: Comment success result to PR
         uses: mshick/add-pr-comment@v2
