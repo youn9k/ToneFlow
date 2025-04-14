@@ -1,10 +1,7 @@
 import SwiftUI
 
-struct ContentView: View {
-    @ObservedObject var audioManager = AudioManager.shared
-    
-    @State var inputChannelValue: Double = 0.5
-    @State var outputChannelValue: Double = 0.5
+struct ContentView: View {    
+    @StateObject private var audioChannelViewModel = AudioChannelViewModel()
     
     @State var compressorKnobValue: Double = 0.5
     @State var overdriveKnobValue: Double = 0.5
@@ -38,14 +35,14 @@ struct ContentView: View {
                 HStack {
                     AudioChannelView(
                         type: .input,
-                        audioChannelValue: $inputChannelValue,
-                        deviceName: "US 1x2 HR"
+                        audioChannelValue: $audioChannelViewModel.inputChannelValue,
+                        deviceName: audioChannelViewModel.currentInputDeviceName
                     )
                     Spacer()
                     AudioChannelView(
                         type: .output,
-                        audioChannelValue: $outputChannelValue,
-                        deviceName: "~~`s AirPod Pro2"
+                        audioChannelValue: $audioChannelViewModel.outputChannelValue,
+                        deviceName: audioChannelViewModel.currentOutputDeviceName
                     )
                 }
                 .padding(.horizontal, 40)
