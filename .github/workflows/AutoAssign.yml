@@ -31,6 +31,10 @@ jobs:
             ## ✅ Assign 자동 지정을 성공했어요!
             @${{ steps.get-pr-author.outputs.author }}
           allow-repeats: true
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+        
 
       - name: Comment failure result to PR
         uses: mshick/add-pr-comment@v2
@@ -38,3 +42,5 @@ jobs:
         with:
           message: "## ❌ PR의 Assign 자동 지정을 실패했어요."
           allow-repeats: true
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
