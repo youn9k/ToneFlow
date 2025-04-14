@@ -30,6 +30,12 @@ struct AudioChannelView: View {
     // 기기 선택 버튼 텍스트
     var deviceName: String
     
+    // 사용 가능한 장치 목록
+    var availableDevices: [String] = []
+    
+    // 장치 선택 콜백
+    var onDeviceSelected: ((String) -> Void)?
+    
     var body: some View {
         VStack(spacing: 0) {
             // 미터와 노브를 포함하는 HStack
@@ -43,12 +49,25 @@ struct AudioChannelView: View {
                 }
             }
             
-            // 기기 선택 버튼
-            Button {
-
-            } label: {
+            // 기기 선택 메뉴
+            if type == .input {
+                Menu {
+                    ForEach(availableDevices, id: \.self) { device in
+                        Button(device) {
+                            onDeviceSelected?(device)
+                        }
+                    }
+                } label: {
+                    Text(deviceName)
+                        .modifier(deviceSelectButtonModifier)
+                }
+            } else {
                 Text(deviceName)
-                    .modifier(deviceSelectButtonModifier)
+                    .tfFont(.t6(.medium))
+                    .bold()
+                    .foregroundStyle(.gray800)
+                    .lineLimit(1)
+                    .padding(.vertical, 10)
             }
         }
         .onAppear {
@@ -101,7 +120,11 @@ struct AudioChannelView: View {
         AudioChannelView(
             type: .input,
             audioChannelValue: .constant(0.5),
-            deviceName: "US 1x2 HR"
+            deviceName: "US 1x2 HR",
+            availableDevices: ["US 1x2 HR", "맥북 내장 마이크", "에어팟 프로"],
+            onDeviceSelected: { deviceName in
+                print("선택된 입력 장치: \(deviceName)")
+            }
         )
         
         // 출력 채널 미리보기
