@@ -22,32 +22,30 @@ class AudioChannelViewModel: ObservableObject {
     @Published var currentInputDeviceName: String = ""
     @Published var currentOutputDeviceName: String = ""
     
-    // 사용 가능한 디바이스 목록
-    @Published var availableInputDevices: [AVAudioSessionPortDescription] = []
-    @Published var availableOutputDevices: [AVAudioSessionPortDescription] = []
+    // 사용 가능한 입력 장치 목록
+    @Published var availableInputDevices: [String] = []
     
     init(audioManager: AudioManager = AudioManager.shared) {
         self.audioManager = audioManager
         bindAudioManager()
     }
     
+    func updateInputDevice(withName name: String) {
+        audioManager.selectInputDevice(withName: name)
+    }
+    
     private func bindAudioManager() {
-        audioManager.currentInputDeviceName.sink { [weak self] name in
-            self?.currentInputDeviceName = name
+        audioManager.currentInputDevice.sink { [weak self] device in
+            self?.currentInputDeviceName = device.map(\.portName) ?? "알 수 없음"
         }.store(in: &cancellables)
         
-        audioManager.currentOutputDeviceName.sink { [weak self] name in
-            self?.currentOutputDeviceName = name
+        audioManager.currentOutputDevice.sink { [weak self] device in
+            self?.currentOutputDeviceName = device.map(\.portName) ?? "알 수 없음"
         }.store(in: &cancellables)
         
         audioManager.availableInputDevices.sink { [weak self] devices in
-            self?.availableInputDevices = devices
-        }.store(in: &cancellables)
-        
-        audioManager.availableOutputDevices.sink { [weak self] devices in
-            self?.availableOutputDevices = devices
+            self?.availableInputDevices = devices.map(\.portName)
         }.store(in: &cancellables)
     }
-    
 }
 

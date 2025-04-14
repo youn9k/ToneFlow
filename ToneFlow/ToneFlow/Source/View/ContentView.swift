@@ -36,7 +36,11 @@ struct ContentView: View {
                     AudioChannelView(
                         type: .input,
                         audioChannelValue: $audioChannelViewModel.inputChannelValue,
-                        deviceName: audioChannelViewModel.currentInputDeviceName
+                        deviceName: audioChannelViewModel.currentInputDeviceName,
+                        availableDevices: audioChannelViewModel.availableInputDevices,
+                        onDeviceSelected: {
+                            audioChannelViewModel.updateInputDevice(withName: $0)
+                        }
                     )
                     Spacer()
                     AudioChannelView(
