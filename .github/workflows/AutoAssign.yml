@@ -31,8 +31,9 @@ jobs:
             ## ✅ Assign 자동 지정을 성공했어요!
             @${{ steps.get-pr-author.outputs.author }}
           allow-repeats: true
-        env:
-          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        # env:
+        #   GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
         
 
@@ -42,5 +43,6 @@ jobs:
         with:
           message: "## ❌ PR의 Assign 자동 지정을 실패했어요."
           allow-repeats: true
-        env:
-          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        # env:
+        #   GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
