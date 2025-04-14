@@ -1,0 +1,17 @@
+name: "Bug"
+description: "버그 제보"
+body:
+  - type: textarea
+    attributes:
+      label: 문제
+      description: |
+        문제 상황에 대해 설명을 작성해주세요.
+      placeholder: |
+        편집 모드일 때 버튼이 동작하지 않아요.
+  - type: textarea
+    attributes:
+      label: 추가사항
+      description: |
+        별도로 알려줘야 할 사항이나 추가사항을 작성해주세요.
+      placeholder: |
+        이런 것들을 시도해보았는데, 해결되지 않았어요.

@@ -1,0 +1,16 @@
+name: "Todo"
+description: "할 일 추가"
+body:
+  - type: textarea
+    attributes:
+      label: 할 일
+      description: |
+        해야 할 일을 작성해주세요.
+      placeholder: |
+        홈 화면 UI 구현
+  - type: textarea
+    attributes:
+      label: 추가사항
+      description: |
+        별도로 알려줘야 할 사항이나 추가사항을 작성해주세요.
+
