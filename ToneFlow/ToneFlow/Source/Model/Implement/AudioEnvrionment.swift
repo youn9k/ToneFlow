@@ -4,43 +4,46 @@ import Combine
 
 final class AudioEnvrionment {
     static let shared = AudioEnvrionment(
-        audioRouteManager: AudioRouteManager(),
+        audioSessionManager: AudioSessionManager(),
         audioEngineManager: AudioEngineManager(),
         isMock: false
     )
     private var cancellables = Set<AnyCancellable>()
+    private let session = AVAudioSession.sharedInstance()
     
-    var availableInputDevices: CurrentValueSubject<[AudioPortDescription], Never> = .init([]) {
-        didSet {
-            // Removed logging
-        }
-    }
-
-    var currentInputDevice: CurrentValueSubject<AudioPortDescription?, Never> = .init(nil)
-    var currentOutputDevice: CurrentValueSubject<AudioPortDescription?, Never> = .init(nil)
-    
-    private let audioRouteManager: AudioRouteManageable
+    private let audioSessionManager: AudioSessionManageable
     private let audioEngineManager: AudioEngineManageable
-
-    private init(audioRouteManager: AudioRouteManageable, audioEngineManager: AudioEngineManageable, isMock: Bool) {
-        self.audioRouteManager = audioRouteManager
-        self.audioEngineManager = isMock ? MockAudioEngineController() : audioEngineManager
+    
+    var availableInputDevicesPublisher: AnyPublisher<[AudioPortDescription], Never> {
+        audioSessionManager.availableInputsPublisher
+    }
+    var currentInputDevicePublisher: AnyPublisher<AudioPortDescription?, Never> {
+        audioSessionManager.currentInputPublisher
+    }
+    var currentOutputDevicePublisher: AnyPublisher<AudioPortDescription?, Never> {
+        audioSessionManager.currentOutputPublisher
+    }
+    
+    private init(audioSessionManager: AudioSessionManageable, audioEngineManager: AudioEngineManageable, isMock: Bool) {
+        self.audioSessionManager = audioSessionManager
+        self.audioEngineManager = audioEngineManager
         self.audioEngineManager.setup()
         self.audioEngineManager.start()
-        updateAvailableInputDevices()
-        updateCurrentInputDevice()
-        updateCurrentOutputDevice()
     }
 
-    private func updateAvailableInputDevices() {
-        availableInputDevices.send(audioRouteManager.availableInputs)
-    }
-
-    private func updateCurrentInputDevice() {
-        currentInputDevice.send(audioRouteManager.currentInput)
-    }
-
-    private func updateCurrentOutputDevice() {
-        currentOutputDevice.send(audioRouteManager.currentOutput)
+    @discardableResult
+    func setPreferredInput(name: String) -> Bool {
+        if let device = session.availableInputs?.first(where: { $0.name == name }) {
+            do {
+                try session.setPreferredInput(device)
+                return true
+            } catch {
+                print("error for selecting input device: \(error.localizedDescription)")
+                return false
+            }
+        } else {
+            print("error for selecting input device, no device found with name : \(name)")
+            return false
+        }
     }
 }

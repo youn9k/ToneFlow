@@ -31,19 +31,19 @@ class AudioChannelViewModel: ObservableObject {
     }
     
     func updateInputDevice(withName name: String) {
-//        audioContext.selectInputDevice(withName: name)
+        audioEnvrionment.setPreferredInput(name: name)
     }
     
     private func bindAudioEnvrionment() {
-        audioEnvrionment.currentInputDevice.sink { [weak self] device in
+        audioEnvrionment.currentInputDevicePublisher.sink { [weak self] device in
             self?.currentInputDeviceName = device.map(\.name) ?? "알 수 없음"
         }.store(in: &cancellables)
         
-        audioEnvrionment.currentOutputDevice.sink { [weak self] device in
+        audioEnvrionment.currentOutputDevicePublisher.sink { [weak self] device in
             self?.currentOutputDeviceName = device.map(\.name) ?? "알 수 없음"
         }.store(in: &cancellables)
         
-        audioEnvrionment.availableInputDevices.sink { [weak self] devices in
+        audioEnvrionment.availableInputDevicesPublisher.sink { [weak self] devices in
             self?.availableInputDevices = devices.map(\.name)
         }.store(in: &cancellables)
     }
