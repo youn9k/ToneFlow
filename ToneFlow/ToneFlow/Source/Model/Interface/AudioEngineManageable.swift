@@ -9,4 +9,5 @@
 protocol AudioEngineManageable {
     func setup()
     func start()
+    func restart()
 }
