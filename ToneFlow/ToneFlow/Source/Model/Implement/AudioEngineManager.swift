@@ -12,16 +12,33 @@ final class AudioEngineManager: AudioEngineManageable {
 
     func setup() {
         audioEngine = AVAudioEngine()
+        
+        guard let audioEngine = audioEngine else { return }
+        
+        audioEngine.connect(audioEngine.inputNode, to: audioEngine.mainMixerNode, format: nil)
     }
 
     func start() {
-        guard let engine = audioEngine else { return }
-        let format = engine.inputNode.outputFormat(forBus: 0)
-
-        engine.connect(engine.inputNode, to: engine.mainMixerNode, format: format)
-        
+        guard let audioEngine = audioEngine else {
+            print("audioEngine is not initialized")
+            return
+        }
         do {
-            try engine.start()
+            try audioEngine.start()
+            print("Audio engine started.")
+        } catch {
+            print("Audio engine start error: \(error.localizedDescription)")
+        }
+    }
+    
+    func restart() {
+        guard let audioEngine = audioEngine else {
+            print("audioEngine is not initialized")
+            return
+        }
+        do {
+            audioEngine.stop()
+            try audioEngine.start()
             print("Audio engine started.")
         } catch {
             print("Audio engine start error: \(error.localizedDescription)")
