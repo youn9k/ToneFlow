@@ -12,7 +12,7 @@ import AVFoundation
 class AudioChannelViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
-    private let audioManager: AudioManager
+    private let audioEnvrionment: AudioEnvrionment
     
     // 채널 값 (노브 및 미터 표시에 사용)
     @Published var inputChannelValue: Double = 0.5
@@ -25,26 +25,26 @@ class AudioChannelViewModel: ObservableObject {
     // 사용 가능한 입력 장치 목록
     @Published var availableInputDevices: [String] = []
     
-    init(audioManager: AudioManager = AudioManager.shared) {
-        self.audioManager = audioManager
-        bindAudioManager()
+    init(audioEnvrionment: AudioEnvrionment = AudioEnvrionment.shared) {
+        self.audioEnvrionment = audioEnvrionment
+        bindAudioEnvrionment()
     }
     
     func updateInputDevice(withName name: String) {
-        audioManager.selectInputDevice(withName: name)
+        audioEnvrionment.setPreferredInput(name: name)
     }
     
-    private func bindAudioManager() {
-        audioManager.currentInputDevice.sink { [weak self] device in
-            self?.currentInputDeviceName = device.map(\.portName) ?? "알 수 없음"
+    private func bindAudioEnvrionment() {
+        audioEnvrionment.currentInputDevicePublisher.sink { [weak self] device in
+            self?.currentInputDeviceName = device.map(\.name) ?? "알 수 없음"
         }.store(in: &cancellables)
         
-        audioManager.currentOutputDevice.sink { [weak self] device in
-            self?.currentOutputDeviceName = device.map(\.portName) ?? "알 수 없음"
+        audioEnvrionment.currentOutputDevicePublisher.sink { [weak self] device in
+            self?.currentOutputDeviceName = device.map(\.name) ?? "알 수 없음"
         }.store(in: &cancellables)
         
-        audioManager.availableInputDevices.sink { [weak self] devices in
-            self?.availableInputDevices = devices.map(\.portName)
+        audioEnvrionment.availableInputDevicesPublisher.sink { [weak self] devices in
+            self?.availableInputDevices = devices.map(\.name)
         }.store(in: &cancellables)
     }
 }
