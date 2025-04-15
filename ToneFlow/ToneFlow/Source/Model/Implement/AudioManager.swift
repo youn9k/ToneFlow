@@ -3,7 +3,11 @@ import AVFAudio
 import Combine
 
 final class AudioManager {
-    static let shared = AudioManager(audioIOManager: AudioIOManager(), isMock: false)
+    static let shared = AudioManager(
+        audioIOManager: AudioIOManager(),
+        audioEngineController: AudioEngineController(),
+        isMock: false
+    )
     private var cancellables = Set<AnyCancellable>()
     
     var availableInputDevices: CurrentValueSubject<[AudioPortDescription], Never> = .init([]) {
@@ -16,39 +20,16 @@ final class AudioManager {
     var currentOutputDevice: CurrentValueSubject<AudioPortDescription?, Never> = .init(nil)
     
     private let audioIOManager: AudioIOManaging
-    private var audioEngine: AVAudioEngine?
-    private var audioPlayerNode: AVAudioPlayerNode?
-    private var audioFile: AVAudioFile?
+    private let audioEngineController: AudioEngineControlling
 
-    private init(audioIOManager: AudioIOManaging, isMock: Bool) {
+    private init(audioIOManager: AudioIOManaging, audioEngineController: AudioEngineControlling, isMock: Bool) {
         self.audioIOManager = audioIOManager
-        if isMock {
-            setupAudioEngine()
-        }
+        self.audioEngineController = isMock ? MockAudioEngineController() : audioEngineController
+        self.audioEngineController.setup()
+        self.audioEngineController.start()
         updateAvailableInputDevices()
         updateCurrentInputDevice()
         updateCurrentOutputDevice()
-    }
-
-    private func setupAudioEngine() {
-        audioEngine = AVAudioEngine()
-        audioPlayerNode = AVAudioPlayerNode()
-        
-        guard let audioFileURL = Bundle.main.url(forResource: "CleanGuitarLoop", withExtension: "wav") else {
-            print("Audio file not found.")
-            return
-        }
-        
-        do {
-            audioFile = try AVAudioFile(forReading: audioFileURL)
-            audioEngine?.attach(audioPlayerNode!)
-            audioEngine?.connect(audioPlayerNode!, to: audioEngine!.mainMixerNode, format: audioFile?.processingFormat)
-            audioPlayerNode?.scheduleFile(audioFile!, at: nil, completionHandler: nil)
-            try audioEngine?.start()
-            audioPlayerNode?.play()
-        } catch {
-            print("audio engine setting error: \(error.localizedDescription)")
-        }
     }
 
     private func updateAvailableInputDevices() {
