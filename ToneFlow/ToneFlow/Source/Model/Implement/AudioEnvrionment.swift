@@ -4,7 +4,7 @@ import Combine
 
 final class AudioEnvrionment {
     static let shared = AudioEnvrionment(
-        audioIOManager: AudioIOManager(),
+        audioRouteManager: AudioRouteManager(),
         audioEngineManager: AudioEngineManager(),
         isMock: false
     )
@@ -19,11 +19,11 @@ final class AudioEnvrionment {
     var currentInputDevice: CurrentValueSubject<AudioPortDescription?, Never> = .init(nil)
     var currentOutputDevice: CurrentValueSubject<AudioPortDescription?, Never> = .init(nil)
     
-    private let audioIOManager: AudioIOManaging
+    private let audioRouteManager: AudioRouteManageable
     private let audioEngineManager: AudioEngineManageable
 
-    private init(audioIOManager: AudioIOManaging, audioEngineManager: AudioEngineManageable, isMock: Bool) {
-        self.audioIOManager = audioIOManager
+    private init(audioRouteManager: AudioRouteManageable, audioEngineManager: AudioEngineManageable, isMock: Bool) {
+        self.audioRouteManager = audioRouteManager
         self.audioEngineManager = isMock ? MockAudioEngineController() : audioEngineManager
         self.audioEngineManager.setup()
         self.audioEngineManager.start()
@@ -33,14 +33,14 @@ final class AudioEnvrionment {
     }
 
     private func updateAvailableInputDevices() {
-        availableInputDevices.send(audioIOManager.availableInputs)
+        availableInputDevices.send(audioRouteManager.availableInputs)
     }
 
     private func updateCurrentInputDevice() {
-        currentInputDevice.send(audioIOManager.currentInput)
+        currentInputDevice.send(audioRouteManager.currentInput)
     }
 
     private func updateCurrentOutputDevice() {
-        currentOutputDevice.send(audioIOManager.currentOutput)
+        currentOutputDevice.send(audioRouteManager.currentOutput)
     }
 }

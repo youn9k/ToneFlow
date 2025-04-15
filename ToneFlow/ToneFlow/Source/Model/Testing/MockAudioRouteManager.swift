@@ -1,5 +1,5 @@
 //
-//  MockAudioIOManager.swift
+//  MockAudioRouteManager.swift
 //  ToneFlow
 //
 //  Created by YoungK on 4/15/25.
@@ -7,7 +7,7 @@
 
 import AVFAudio
 
-final class MockAudioIOManager: AudioIOManaging {
+final class MockAudioRouteManager: AudioRouteManageable {
     var availableInputs: [AudioPortDescription] {
         return [
             MockAudioPortDescription(name: "Mock Input 1", identifier: "1", port: .builtInMic),

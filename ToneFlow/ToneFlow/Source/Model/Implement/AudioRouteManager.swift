@@ -1,5 +1,5 @@
 //
-//  AudioIOManager.swift
+//  AudioRouteManager.swift
 //  ToneFlow
 //
 //  Created by YoungK on 4/15/25.
@@ -8,7 +8,7 @@
 import AVFAudio
 import Combine
 
-final class AudioIOManager: AudioIOManaging {
+final class AudioRouteManager: AudioRouteManageable {
     private var cancellables = Set<AnyCancellable>()
     private let session = AVAudioSession.sharedInstance()
     
