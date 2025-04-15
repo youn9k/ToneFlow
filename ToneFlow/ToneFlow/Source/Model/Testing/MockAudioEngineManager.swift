@@ -1,5 +1,5 @@
 //
-//  MockAudioEngineController.swift
+//  MockAudioEngineManager.swift
 //  ToneFlow
 //
 //  Created by YoungK on 4/15/25.
@@ -7,7 +7,7 @@
 
 import AVFAudio
 
-class MockAudioEngineController: AudioEngineManageable {
+class MockAudioEngineManager: AudioEngineManageable {
     private var audioEngine: AVAudioEngine?
     private var audioPlayerNode: AVAudioPlayerNode?
     private var audioFile: AVAudioFile?
