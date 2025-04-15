@@ -5,7 +5,7 @@ import Combine
 final class AudioEnvrionment {
     static let shared = AudioEnvrionment(
         audioSessionManager: AudioSessionManager(),
-        audioEngineManager: AudioEngineManager(),
+        audioEngineManager: MockAudioEngineManager(),
         isMock: false
     )
     private var cancellables = Set<AnyCancellable>()
@@ -29,6 +29,13 @@ final class AudioEnvrionment {
         self.audioEngineManager = audioEngineManager
         self.audioEngineManager.setup()
         self.audioEngineManager.start()
+        
+        NotificationCenter.default
+            .publisher(for: AVAudioSession.routeChangeNotification)
+            .sink { [weak self] _ in
+                self?.audioEngineManager.restart()
+            }
+            .store(in: &cancellables)
     }
 
     @discardableResult
