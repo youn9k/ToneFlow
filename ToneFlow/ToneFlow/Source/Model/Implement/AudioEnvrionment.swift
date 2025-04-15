@@ -2,8 +2,8 @@ import Foundation
 import AVFAudio
 import Combine
 
-final class AudioManager {
-    static let shared = AudioManager(
+final class AudioEnvrionment {
+    static let shared = AudioEnvrionment(
         audioIOManager: AudioIOManager(),
         audioEngineController: AudioEngineController(),
         isMock: false
