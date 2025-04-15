@@ -1,5 +1,5 @@
 //
-//  AudioEngineController.swift
+//  AudioEngineManager.swift
 //  ToneFlow
 //
 //  Created by YoungK on 4/15/25.
@@ -7,7 +7,7 @@
 
 import AVFAudio
 
-final class AudioEngineController: AudioEngineControlling {
+final class AudioEngineManager: AudioEngineManageable {
     private var audioEngine: AVAudioEngine?
 
     func setup() {

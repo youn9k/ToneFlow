@@ -7,7 +7,7 @@
 
 import AVFAudio
 
-class MockAudioEngineController: AudioEngineControlling {
+class MockAudioEngineController: AudioEngineManageable {
     private var audioEngine: AVAudioEngine?
     private var audioPlayerNode: AVAudioPlayerNode?
     private var audioFile: AVAudioFile?

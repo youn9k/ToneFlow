@@ -5,7 +5,7 @@ import Combine
 final class AudioEnvrionment {
     static let shared = AudioEnvrionment(
         audioIOManager: AudioIOManager(),
-        audioEngineController: AudioEngineController(),
+        audioEngineManager: AudioEngineManager(),
         isMock: false
     )
     private var cancellables = Set<AnyCancellable>()
@@ -20,13 +20,13 @@ final class AudioEnvrionment {
     var currentOutputDevice: CurrentValueSubject<AudioPortDescription?, Never> = .init(nil)
     
     private let audioIOManager: AudioIOManaging
-    private let audioEngineController: AudioEngineControlling
+    private let audioEngineManager: AudioEngineManageable
 
-    private init(audioIOManager: AudioIOManaging, audioEngineController: AudioEngineControlling, isMock: Bool) {
+    private init(audioIOManager: AudioIOManaging, audioEngineManager: AudioEngineManageable, isMock: Bool) {
         self.audioIOManager = audioIOManager
-        self.audioEngineController = isMock ? MockAudioEngineController() : audioEngineController
-        self.audioEngineController.setup()
-        self.audioEngineController.start()
+        self.audioEngineManager = isMock ? MockAudioEngineController() : audioEngineManager
+        self.audioEngineManager.setup()
+        self.audioEngineManager.start()
         updateAvailableInputDevices()
         updateCurrentInputDevice()
         updateCurrentOutputDevice()
