@@ -34,3 +34,8 @@ ToneFlow allows you to select your input device and processes the signal through
 ## ScreenShot
 
 <img src="https://github.com/user-attachments/assets/ad96f533-ed0f-4b0b-a4b3-1c0b70bbce4e" width=50%>
+
+## Experience & Trouble Shooting
+
+[테스트 가능한 오디오 관리 객체 설계하기
+](https://github.com/youn9k/ToneFlow/wiki/%ED%85%8C%EC%8A%A4%ED%8A%B8-%EA%B0%80%EB%8A%A5%ED%95%9C-%EC%98%A4%EB%94%94%EC%98%A4-%EA%B4%80%EB%A6%AC-%EA%B0%9D%EC%B2%B4-%EC%84%A4%EA%B3%84%ED%95%98%EA%B8%B0)
