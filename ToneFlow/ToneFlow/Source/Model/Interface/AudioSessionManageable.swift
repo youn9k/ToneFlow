@@ -11,7 +11,7 @@ protocol AudioSessionManageable {
     var availableInputsPublisher: AnyPublisher<[AudioPortDescription], Never> { get }
     var currentInputPublisher: AnyPublisher<AudioPortDescription?, Never> { get }
     var currentOutputPublisher: AnyPublisher<AudioPortDescription?, Never> { get }
-    var currentnputGainPublisher: AnyPublisher<Float, Never> { get }
+    var currentInputGainPublisher: AnyPublisher<Float, Never> { get }
     var currentOutputVolumePublisher: AnyPublisher<Float, Never> { get }
     
     func setInputGain(_ gain: Float) throws

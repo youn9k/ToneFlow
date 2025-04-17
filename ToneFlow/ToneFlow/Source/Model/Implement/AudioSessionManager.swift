@@ -24,7 +24,7 @@ final class AudioSessionManager: AudioSessionManageable {
             .eraseToAnyPublisher()
     }
     
-    var currentnputGainPublisher: AnyPublisher<Float, Never> {
+    var currentInputGainPublisher: AnyPublisher<Float, Never> {
         AVAudioSession.sharedInstance().publisher(for: \.inputGain).eraseToAnyPublisher()
     }
     

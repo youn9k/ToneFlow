@@ -24,11 +24,11 @@ final class AudioEnvrionment {
         audioSessionManager.currentOutputPublisher
     }
     
-    var currentInputGain: AnyPublisher<Float, Never> {
-        audioSessionManager.currentnputGainPublisher
+    var currentInputGainPublisher: AnyPublisher<Float, Never> {
+        audioSessionManager.currentInputGainPublisher
     }
     
-    var currentOutputVolume: AnyPublisher<Float, Never> {
+    var currentOutputVolumePublisher: AnyPublisher<Float, Never> {
         audioSessionManager.currentOutputVolumePublisher
     }
     
