@@ -33,21 +33,9 @@ struct ContentView: View {
         ScrollView {
             VStack(spacing: 20) {
                 HStack {
-                    AudioChannelView(
-                        type: .input,
-                        audioChannelValue: $audioChannelViewModel.inputChannelValue,
-                        deviceName: audioChannelViewModel.currentInputDeviceName,
-                        availableDevices: audioChannelViewModel.availableInputDevices,
-                        onDeviceSelected: {
-                            audioChannelViewModel.updateInputDevice(withName: $0)
-                        }
-                    )
+                    AudioChannelView(viewModel: audioChannelViewModel, type: .input)
                     Spacer()
-                    AudioChannelView(
-                        type: .output,
-                        audioChannelValue: $audioChannelViewModel.outputChannelValue,
-                        deviceName: audioChannelViewModel.currentOutputDeviceName
-                    )
+                    AudioChannelView(viewModel: audioChannelViewModel, type: .output)
                 }
                 .padding(.horizontal, 40)
                 .padding(.top, 15)
