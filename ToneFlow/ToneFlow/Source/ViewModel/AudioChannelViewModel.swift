@@ -28,10 +28,29 @@ class AudioChannelViewModel: ObservableObject {
     init(audioEnvrionment: AudioEnvrionment = AudioEnvrionment.shared) {
         self.audioEnvrionment = audioEnvrionment
         bindAudioEnvrionment()
+        bindAction()
     }
     
     func updateInputDevice(withName name: String) {
         audioEnvrionment.setPreferredInput(name: name)
+    }
+    
+    func setInputGain(_ gain: Float) {
+        try? audioEnvrionment.setInputGain(gain)
+    }
+    
+    func setOutputVolume(_ volume: Float) {
+        audioEnvrionment.setOutputVolume(volume)
+    }
+    
+    private func bindAction() {
+        $inputChannelValue.map { Float($0) }.sink { [weak self] value in
+            self?.setInputGain(value)
+        }.store(in: &cancellables)
+        
+        $outputChannelValue.map { Float($0) }.sink { [weak self] value in
+            self?.setOutputVolume(value)
+        }.store(in: &cancellables)
     }
     
     private func bindAudioEnvrionment() {

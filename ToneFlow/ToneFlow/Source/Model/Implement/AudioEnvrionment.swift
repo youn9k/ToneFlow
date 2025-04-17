@@ -53,4 +53,12 @@ final class AudioEnvrionment {
             return false
         }
     }
+    
+    func setInputGain(_ gain: Float) throws {
+        try audioSessionManager.setInputGain(gain)
+    }
+    
+    func setOutputVolume(_ volume: Float) {
+        audioSessionManager.setOutputVolume(volume)
+    }
 }
