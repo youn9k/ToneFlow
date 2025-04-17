@@ -8,12 +8,16 @@
 import AVFAudio
 import Combine
 
-final class MockAudioSessionManager: AudioSessionManageable {
+final class MockAudioSessionManager: AudioSessionManageable {    
     let availableInputsPublisher: AnyPublisher<[AudioPortDescription], Never>
     
     let currentInputPublisher: AnyPublisher<AudioPortDescription?, Never>
     
     let currentOutputPublisher: AnyPublisher<AudioPortDescription?, Never>
+    
+    let currentInputGainPublisher: AnyPublisher<Float, Never>
+    
+    let currentOutputVolumePublisher: AnyPublisher<Float, Never>
     
     init() {
         availableInputsPublisher = Just([
@@ -24,6 +28,10 @@ final class MockAudioSessionManager: AudioSessionManageable {
         currentInputPublisher = Just(MockAudioPortDescription(name: "Mock Input 1", identifier: "1", port: .builtInMic)).eraseToAnyPublisher()
         
         currentOutputPublisher = Just(MockAudioPortDescription(name: "Mock Output 1", identifier: "10", port: .builtInSpeaker)).eraseToAnyPublisher()
+        
+        currentInputGainPublisher = Just(0.5).eraseToAnyPublisher()
+        
+        currentOutputVolumePublisher = Just(0.5).eraseToAnyPublisher()
     }
 
 }
