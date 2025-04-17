@@ -24,6 +24,14 @@ final class AudioEnvrionment {
         audioSessionManager.currentOutputPublisher
     }
     
+    var currentInputGainPublisher: AnyPublisher<Float, Never> {
+        audioSessionManager.currentInputGainPublisher
+    }
+    
+    var currentOutputVolumePublisher: AnyPublisher<Float, Never> {
+        audioSessionManager.currentOutputVolumePublisher
+    }
+    
     private init(audioSessionManager: AudioSessionManageable, audioEngineManager: AudioEngineManageable, isMock: Bool) {
         self.audioSessionManager = audioSessionManager
         self.audioEngineManager = audioEngineManager
@@ -52,5 +60,13 @@ final class AudioEnvrionment {
             print("error for selecting input device, no device found with name : \(name)")
             return false
         }
+    }
+    
+    func setInputGain(_ gain: Float) throws {
+        try audioSessionManager.setInputGain(gain)
+    }
+    
+    func setOutputVolume(_ volume: Float) {
+        audioSessionManager.setOutputVolume(volume)
     }
 }

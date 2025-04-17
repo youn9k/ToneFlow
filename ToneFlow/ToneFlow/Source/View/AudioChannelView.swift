@@ -20,22 +20,10 @@ struct AudioChannelView: View {
         }
     }
     
-    var type: ChannelType
-    
-    @Binding var audioChannelValue: Double
-    
-    // 화면에 표시될 볼륨 값 텍스트
-    @State private var volumeText: String = ""
-    
-    // 기기 선택 버튼 텍스트
-    var deviceName: String
-    
-    // 사용 가능한 장치 목록
-    var availableDevices: [String] = []
-    
-    // 장치 선택 콜백
-    var onDeviceSelected: ((String) -> Void)?
-    
+    @ObservedObject var viewModel: AudioChannelViewModel
+    @State private var knobValue: Double = 0.5
+    let type: ChannelType
+
     var body: some View {
         VStack(spacing: 0) {
             // 미터와 노브를 포함하는 HStack
@@ -52,17 +40,17 @@ struct AudioChannelView: View {
             // 기기 선택 메뉴
             if type == .input {
                 Menu {
-                    ForEach(availableDevices, id: \.self) { device in
+                    ForEach(viewModel.availableInputDevices, id: \.self) { device in
                         Button(device) {
-                            onDeviceSelected?(device)
+                            viewModel.send(.selectInputDevice(device))
                         }
                     }
                 } label: {
-                    Text(deviceName)
+                    Text(viewModel.currentInputDeviceName)
                         .modifier(deviceSelectButtonModifier)
                 }
             } else {
-                Text(deviceName)
+                Text(viewModel.currentOutputDeviceName)
                     .tfFont(.t6(.medium))
                     .bold()
                     .foregroundStyle(.gray800)
@@ -70,18 +58,22 @@ struct AudioChannelView: View {
                     .padding(.vertical, 10)
             }
         }
-        .onAppear {
-            updateVolumeText()
-        }
-        .onChange(of: audioChannelValue) {
-            updateVolumeText()
+        .onChange(of: knobValue) {
+            if type == .input {
+                viewModel.send(.changedInputKnobValue(knobValue))
+            } else {
+                viewModel.send(.changedOutputKnobValue(knobValue))
+            }
         }
     }
     
     // 볼륨 미터 뷰
     private var volumeMeterView: some View {
-        VStack(spacing: 9) {
-            TFVolumeMeterView(volume: $audioChannelValue)
+        let volumeText = type == .input ? viewModel.inputGainText : viewModel.outputVolumeText
+        
+        return VStack(spacing: 9) {
+            #warning("입출력되는 수치로 변경 예정")
+            TFVolumeMeterView(volume: .constant(0.5))
                 .frame(width: 10, height: 100)
             
             Text(volumeText)
@@ -95,7 +87,7 @@ struct AudioChannelView: View {
     // 노브 뷰
     private var knobView: some View {
         VStack(spacing: 0) {
-            KnobView(knobValue: $audioChannelValue)
+            KnobView(knobValue: $knobValue)
                 .frame(width: 80, height: 80)
                 .tfShadow(alpha: 0.25, blur: 10)
                 .padding(.top, 20)
@@ -106,32 +98,20 @@ struct AudioChannelView: View {
                 .padding(.top, 5)
         }
     }
-    
-    // 볼륨 텍스트 업데이트
-    private func updateVolumeText() {
-        let roundedValue = (audioChannelValue * 100).rounded()
-        volumeText = String(Int(roundedValue))
-    }
 }
 
 #Preview {
     VStack(spacing: 30) {
         // 입력 채널 미리보기
         AudioChannelView(
-            type: .input,
-            audioChannelValue: .constant(0.5),
-            deviceName: "US 1x2 HR",
-            availableDevices: ["US 1x2 HR", "맥북 내장 마이크", "에어팟 프로"],
-            onDeviceSelected: { deviceName in
-                print("선택된 입력 장치: \(deviceName)")
-            }
+            viewModel: AudioChannelViewModel(),
+            type: .input
         )
         
         // 출력 채널 미리보기
         AudioChannelView(
-            type: .output,
-            audioChannelValue: .constant(0.8),
-            deviceName: "~~`s AirPod Pro2"
+            viewModel: AudioChannelViewModel(),
+            type: .output
         )
     }
 }

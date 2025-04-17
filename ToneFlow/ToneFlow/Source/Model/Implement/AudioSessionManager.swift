@@ -4,6 +4,7 @@ import Combine
 final class AudioSessionManager: AudioSessionManageable {
     private var cancellables = Set<AnyCancellable>()
     private let session = AVAudioSession.sharedInstance()
+    private let systemVolumeController = SystemVolumeController()
     
     var availableInputsPublisher: AnyPublisher<[AudioPortDescription], Never> {
         routeChangePublisher
@@ -23,6 +24,14 @@ final class AudioSessionManager: AudioSessionManageable {
             .eraseToAnyPublisher()
     }
     
+    var currentInputGainPublisher: AnyPublisher<Float, Never> {
+        AVAudioSession.sharedInstance().publisher(for: \.inputGain).eraseToAnyPublisher()
+    }
+    
+    var currentOutputVolumePublisher: AnyPublisher<Float, Never> {
+        AVAudioSession.sharedInstance().publisher(for: \.outputVolume).eraseToAnyPublisher()
+    }
+    
     init() {
         setupAudioSession()
     }
@@ -39,5 +48,13 @@ final class AudioSessionManager: AudioSessionManageable {
         ])
         try? session.setActive(true)
         try? session.setInputGain(0.5)
+    }
+    
+    func setInputGain(_ gain: Float) throws {
+        try session.setInputGain(gain)
+    }
+    
+    func setOutputVolume(_ volume: Float) {
+        systemVolumeController.setVolume(volume)
     }
 }
