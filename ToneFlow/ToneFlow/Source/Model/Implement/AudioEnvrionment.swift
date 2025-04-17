@@ -24,6 +24,14 @@ final class AudioEnvrionment {
         audioSessionManager.currentOutputPublisher
     }
     
+    var currentInputGain: AnyPublisher<Float, Never> {
+        audioSessionManager.currentnputGainPublisher
+    }
+    
+    var currentOutputVolume: AnyPublisher<Float, Never> {
+        audioSessionManager.currentOutputVolumePublisher
+    }
+    
     private init(audioSessionManager: AudioSessionManageable, audioEngineManager: AudioEngineManageable, isMock: Bool) {
         self.audioSessionManager = audioSessionManager
         self.audioEngineManager = audioEngineManager
